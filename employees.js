@@ -9,5 +9,29 @@ function start() {
       message: "What would you like to do?",
       choices: ["View All Employees", "View Departments", "View Roles", "Add Employee", "Add Department", "Add Role", "Update An Employee"]
   })
-  
+  .then(function(answer) {
+      switch(answer.selection) {
+          case "View All Employees":
+              viewEmployees();
+              break;
+          case "View Departments":
+              viewDepartments();
+              break;
+          case "View Roles":
+              viewRoles();
+              break;
+          case "Add Employee":
+              addEmployee();
+              break;
+          case "Add Department":
+              addDepartment();
+              break;
+          case "Add Role":
+              addRole();
+              break;
+          case "Update An Employee":
+              updateEmployee();
+              break;
+      }
+  })
 }
