@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
   
   connection.connect(function(err) {
     if (err) throw err;
-    runSearch();
+    start();
   });
 
 function start() {
@@ -52,3 +52,24 @@ function start() {
   })
 };
 
+function viewEmployees() {
+    var query = "SELECT * FROM employee";
+
+    connection.query(query, function(err, res) {
+
+        console.table(res);
+
+        start();
+    });
+};
+
+function viewDepartments() {
+    var query = "SELECT * FROM department";
+
+    connection.query(query, function(err, res) {
+
+        console.table(res);
+
+        start();
+    });
+};
