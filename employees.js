@@ -28,7 +28,7 @@ function start() {
   .then(function(answer) {
       switch(answer.selection) {
           case "View All Employees":
-              viewEmployees();
+              viewAllEmployees();
               break;
           case "View Departments":
               viewDepartments();
@@ -55,8 +55,15 @@ function start() {
   })
 };
 
-function viewEmployees() {
-    var query = "SELECT * FROM employee";
+function viewAllEmployees() {
+    var query = `SELECT e.id, e.first_name AS "First Name", e.last_name AS "Last Name", r.title, d.name AS "Department", IFNULL(r.salary, 'No Data') AS "Salary", CONCAT(m.first_name, ' ', m.last_name) AS "Manager"
+    FROM employee e
+    LEFT JOIN role r 
+    ON r.id = e.role_id 
+    LEFT JOIN department d 
+    ON d.id = r.department_id
+    LEFT JOIN employee m ON m.id = e.manager_id
+    ORDER BY e.id;`;
 
     connection.query(query, function(err, res) {
         if (err) throw err;
@@ -94,44 +101,6 @@ function viewRoles() {
 function addEmployee() {
     console.log("Adding new employee...\n");
 
-    inquirer
-      .prompt([
-          {
-              name: "first_name",
-              type: "input",
-              message: "What is the employee's first name?"
-          },
-          {
-              name: "last_name",
-              type: "input",
-              message: "What is the employee's last name?"
-          }
-      ])
-      .then(function(){
-          
-        var query = "SELECT * FROM role";
-
-        connection.query(query, function(err, res) {
-            if(err) throw err;
-
-            inquirer
-              .prompt([
-                  {
-                      name: "role_choice",
-                      type: "rawlist",
-                      message: "What will their role be?",
-                      choices: function() {
-                          let choiceArr = [];
-                          for (let i = 0; i < res.length; i++) {
-                              choiceArr.push(res[i].title)
-                          }
-                          return choiceArr;
-                      }
-                  }
-              ])
-        })
-          
-      })
 }
 
 function addDepartment() {
