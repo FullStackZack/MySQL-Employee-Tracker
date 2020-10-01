@@ -91,15 +91,6 @@ function viewRoles() {
     });
 };
 
-function showAll() {
-    var query = "SELECT * FROM employee, role, department";
-
-    connection.query(query, function(err, res) {
-        if (err) throw err;
-
-        console.table(res);
-    })
-}
 
 function addEmployee() {
 
@@ -125,7 +116,7 @@ function addEmployee() {
                 choices: function() {
                     let choiceArr = [];
                     for (let i = 0; i < res.length; i++) {
-                        choiceArr.push(res[i].id);
+                        choiceArr.push(res[i].title);
                     }
                     return choiceArr;
                 }
@@ -137,7 +128,7 @@ function addEmployee() {
                 choices: function() {
                     let choiceArr = [];
                     for (let i = 0; i < res.length; i++) {
-                        choiceArr.push(res[i].manager_id);
+                        choiceArr.push(res[i].first_name);
                     }
                     return choiceArr;
                 }
@@ -157,3 +148,5 @@ function addEmployee() {
         })
     })   
 }
+
+showAll();
