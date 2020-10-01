@@ -156,7 +156,9 @@ function addDepartment() {
               function(err, res) {
                   if(err) throw err;
                   
-                  console.log(res.affectedRows + " department added!\n")
+                  console.log(res.affectedRows + " department added!\n");
+
+                  start();
               }
           )
       })
@@ -219,5 +221,6 @@ function addRole() {
 }
 
 function updateEmployee() {
+    console.log("Updating a current employee's role!...\n");
 
 }
