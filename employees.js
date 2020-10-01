@@ -135,7 +135,31 @@ function addEmployee() {
 }
 
 function addDepartment() {
+    console.log("Adding a new department!...\n");
 
+    inquirer
+      .prompt([
+          {
+              name: "nameOfDept",
+              type: "input",
+              message: "What department do you want to add?"
+          }
+      ])
+      .then(function(answer) {
+          console.log(answer);
+
+          var query = connection.query(
+              "INSERT INTO department SET ?",
+              {
+                  name: answer.nameOfDept
+              },
+              function(err, res) {
+                  if(err) throw err;
+                  
+                  console.log(res.affectedRows + " department added!\n")
+              }
+          )
+      })
 
 }
 
