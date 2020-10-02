@@ -101,6 +101,36 @@ function viewRoles() {
 function addEmployee() {
     console.log("Adding new employee...\n");
 
+    var query = "SELECT * FROM role";
+    connection.query(query, function(err, res) {
+        if (err) throw err;
+
+        inquirer
+        .prompt([
+            {
+                name: "firstName",
+                type: "input",
+                message: "What is the employee's first name?"
+            },
+            {
+                name: "lastName",
+                type: "input",
+                message: "What is the employee's last name?"
+            },
+            {
+                name: "employee_role",
+                type: "rawlist",
+                message: "What's their role?",
+                choices: function() {
+                    let choiceArr = [];
+                    for (let i = 0; i < res.length; i++) {
+                        choiceArr.push(res[i].title)
+                    }
+                    return choiceArr;
+                }
+            }
+        ])
+    })
 }
 
 function addDepartment() {
@@ -158,7 +188,13 @@ function addRole() {
               {
                   name: "salary",
                   type: "input",
-                  message: "What is the salary for this role?"
+                  message: "What is the salary for this role?",
+                  validate: function(value) {
+                    if (isNaN(value) === false) {
+                      return true;
+                    }
+                    return false;
+                  }
               },
               {
                   name: "department",
