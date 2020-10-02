@@ -130,6 +130,23 @@ function addEmployee() {
                 }
             }
         ])
+        .then(function(answer) {
+
+            connection.query("SELECT * FROM role WHERE ?", {title: answer.employee_role}, function (err, res) {
+                if (err) throw err;
+
+                connection.query("INSERT INTO employee SET ?", {
+
+                    first_name: answer.firstName,
+                    last_name: answer.lastName,
+                    role_id: res[0].id
+                });
+
+                console.log("Employee successfully added!")
+
+                start();
+            })
+        })
     })
 }
 
